@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-gray-50 via-lavender-50/30 to-white dark:from-gray-900 dark:via-lavender-900/20 dark:to-gray-900 text-gray-900 dark:text-white transition-all duration-300;
+  }
+
+  * {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-lavender-600 to-lavender-700 hover:from-lavender-700 hover:to-lavender-800 text-white px-6 py-2 rounded-xl shadow-lg shadow-lavender-500/30 hover:shadow-xl hover:shadow-lavender-600/40 transition-all duration-300 transform hover:-translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-gray-800 hover:bg-lavender-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white border-2 border-lavender-300 dark:border-lavender-700 px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-lavender-500 focus:border-lavender-500 dark:bg-gray-800/50 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 backdrop-blur-sm transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl transition-all duration-300;
+  }
+
+  .glass-effect {
+    @apply bg-white/70 dark:bg-gray-800/70 backdrop-blur-lg border border-white/20 dark:border-gray-700/20 shadow-xl;
+  }
+
+  .message-bubble {
+    @apply rounded-2xl shadow-md transition-all duration-200 hover:shadow-lg;
+  }
+
+  .avatar-glow {
+    @apply shadow-lg shadow-lavender-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-lavender-600/50;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes avatarPop {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-ping {
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-slideInSmooth {
+  animation: slideInSmooth 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-messagePulse {
+  animation: pulse 1s ease-in-out;
+}
+
+.animate-pulse {
+  animation: skeletonPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-lavender-400 dark:bg-lavender-600 rounded-full hover:bg-lavender-500 dark:hover:bg-lavender-500;
+}
+
+/* Emoji Picker Custom Styling */
+.EmojiPickerReact {
+  @apply shadow-2xl border-2 border-lavender-200 dark:border-lavender-800 rounded-2xl !important;
+}
+
+/* Toast Notification Custom Styling */
+.Toastify__toast-container {
+  @apply px-2 sm:px-4;
+  width: calc(100% - 1rem) !important;
+  max-width: 420px !important;
+}
+
+@media (min-width: 640px) {
+  .Toastify__toast-container {
+    width: auto !important;
+  }
+}
+
+.Toastify__toast {
+  @apply rounded-xl shadow-2xl font-medium mb-2 p-3 sm:p-4 backdrop-blur-xl;
+  min-height: 48px !important;
+  font-family: inherit !important;
+}
+
+.Toastify__toast--success {
+  @apply bg-white dark:bg-gray-800 !important;
+  border-left: 4px solid #10b981 !important;
+  color: #047857 !important;
+}
+
+.Toastify__toast--success .Toastify__toast-icon {
+  color: #10b981 !important;
+}
+
+.dark .Toastify__toast--success {
+  color: #34d399 !important;
+}
+
+.Toastify__toast--error {
+  @apply bg-white dark:bg-gray-800 !important;
+  border-left: 4px solid #ef4444 !important;
+  color: #dc2626 !important;
+}
+
+.Toastify__toast--error .Toastify__toast-icon {
+  color: #ef4444 !important;
+}
+
+.dark .Toastify__toast--error {
+  color: #f87171 !important;
+}
+
+.Toastify__toast--info {
+  @apply bg-white dark:bg-gray-800 !important;
+  border-left: 4px solid #8b5cf6 !important;
+  color: #7c3aed !important;
+}
+
+.Toastify__toast--info .Toastify__toast-icon {
+  color: #8b5cf6 !important;
+}
+
+.dark .Toastify__toast--info {
+  color: #a78bfa !important;
+}
+
+.Toastify__toast--warning {
+  @apply bg-white dark:bg-gray-800 !important;
+  border-left: 4px solid #f59e0b !important;
+  color: #d97706 !important;
+}
+
+.Toastify__toast--warning .Toastify__toast-icon {
+  color: #f59e0b !important;
+}
+
+.dark .Toastify__toast--warning {
+  color: #fbbf24 !important;
+}
+
+.Toastify__progress-bar {
+  height: 3px !important;
+}
+
+.Toastify__progress-bar--success {
+  @apply bg-green-500 !important;
+}
+
+.Toastify__progress-bar--error {
+  @apply bg-red-500 !important;
+}
+
+.Toastify__progress-bar--info {
+  @apply bg-purple-500 !important;
+}
+
+.Toastify__progress-bar--warning {
+  @apply bg-amber-500 !important;
+}
+
+.Toastify__close-button {
+  @apply opacity-60 hover:opacity-100 !important;
+  color: currentColor !important;
+}
+
+.Toastify__toast-body {
+  @apply text-sm sm:text-base p-0 !important;
+  line-height: 1.5 !important;
+}

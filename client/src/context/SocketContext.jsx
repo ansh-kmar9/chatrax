@@ -6,6 +6,10 @@ const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext);
 
+const SOCKET_URL = import.meta.env.PROD 
+  ? "https://chatrax.onrender.com" 
+  : "http://localhost:5000";
+
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,7 +28,7 @@ export const SocketProvider = ({ children }) => {
         socketRef.current.disconnect();
       }
 
-      const newSocket = io("http://localhost:5000", {
+      const newSocket = io(SOCKET_URL, {
         reconnection: true,
         reconnectionDelay: 1000,
         reconnectionDelayMax: 5000,

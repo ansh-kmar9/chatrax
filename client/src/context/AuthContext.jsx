@@ -2,6 +2,11 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
+// Set base URL for axios
+axios.defaults.baseURL = import.meta.env.PROD 
+  ? "https://chatrax.onrender.com" 
+  : "";
+
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);

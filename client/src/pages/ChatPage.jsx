@@ -45,6 +45,7 @@ function ChatPage() {
   // Refs for stable access in callbacks
   const selectedFriendRef = useRef(null);
   const userRef = useRef(null);
+  const initialLoadDone = useRef(false);
 
   // Keep refs in sync
   useEffect(() => {
@@ -55,13 +56,22 @@ function ChatPage() {
     userRef.current = user;
   }, [user]);
 
+  // Load data immediately on mount (uses JWT token, not socket)
   useEffect(() => {
-    // Only load data after socket is authenticated
-    if (isAuthenticated) {
+    if (user && !initialLoadDone.current) {
+      initialLoadDone.current = true;
       loadFriends();
       loadFriendRequests();
       loadUnreadCount();
       loadUnreadCounts();
+    }
+  }, [user]);
+
+  // Also reload when socket authenticates (for real-time updates)
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadFriends();
+      loadFriendRequests();
     }
 
     // Check if mobile

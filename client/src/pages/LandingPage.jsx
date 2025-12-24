@@ -70,7 +70,7 @@ function LandingPage() {
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
               Chat without
               <span className="block mt-2 bg-gradient-to-r from-lavender-600 to-purple-600 dark:from-lavender-400 dark:to-purple-400 bg-clip-text text-transparent">
-                the noise with bholiyaaa
+                the noise
               </span>
             </h1>
 

@@ -6,8 +6,8 @@ const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext);
 
-const SOCKET_URL = import.meta.env.PROD 
-  ? "https://chatrax.onrender.com" 
+const SOCKET_URL = import.meta.env.PROD
+  ? "https://chatrax.onrender.com"
   : "http://localhost:5000";
 
 export const SocketProvider = ({ children }) => {

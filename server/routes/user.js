@@ -125,25 +125,36 @@ router.get("/friends", auth, async (req, res) => {
 
     const friends = acceptedRequests
       .map((request) => {
-        // Determine which user is the friend (not the current user)
-        const friend =
-          request.sender._id.toString() === req.user._id.toString()
-            ? request.receiver
-            : request.sender;
+        try {
+          // Safety check - if populate failed, sender/receiver could be null
+          if (!request.sender || !request.receiver) {
+            console.log(`[FRIENDS API] Warning: null sender or receiver in request ${request._id}`);
+            return null;
+          }
 
-        // Skip if friend is null (shouldn't happen but safety check)
-        if (!friend) {
-          console.log(`[FRIENDS API] Warning: null friend in request ${request._id}`);
+          // Determine which user is the friend (not the current user)
+          const friend =
+            request.sender._id.toString() === req.user._id.toString()
+              ? request.receiver
+              : request.sender;
+
+          // Skip if friend is null (shouldn't happen but safety check)
+          if (!friend || !friend._id) {
+            console.log(`[FRIENDS API] Warning: invalid friend in request ${request._id}`);
+            return null;
+          }
+
+          // Check if friend is online using helper function
+          const online = isUserOnline(friend._id.toString());
+
+          return {
+            ...friend.toObject(),
+            isOnline: online,
+          };
+        } catch (mapError) {
+          console.error(`[FRIENDS API] Error processing request ${request._id}:`, mapError);
           return null;
         }
-
-        // Check if friend is online using helper function
-        const online = isUserOnline(friend._id.toString());
-
-        return {
-          ...friend.toObject(),
-          isOnline: online,
-        };
       })
       .filter((friend) => friend !== null); // Remove any null entries
 
@@ -151,7 +162,7 @@ router.get("/friends", auth, async (req, res) => {
     res.json({ friends });
   } catch (error) {
     console.error("Error fetching friends:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 

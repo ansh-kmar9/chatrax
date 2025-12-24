@@ -78,22 +78,33 @@ router.get("/friends", auth, async (req, res) => {
       ],
     }).populate("sender receiver", "-password");
 
-    const friends = acceptedRequests.map((request) => {
-      const friend =
-        request.sender._id.toString() === req.user._id.toString()
-          ? request.receiver
-          : request.sender;
+    console.log(`[FRIENDS API] Found ${acceptedRequests.length} accepted requests for user ${req.user._id}`);
 
-      // Check if friend is online using helper function
-      const online = isUserOnline(friend._id.toString());
+    const friends = acceptedRequests
+      .map((request) => {
+        // Determine which user is the friend (not the current user)
+        const friend =
+          request.sender._id.toString() === req.user._id.toString()
+            ? request.receiver
+            : request.sender;
 
-      return {
-        ...friend.toObject(),
-        isOnline: online,
-      };
-    });
+        // Skip if friend is null (shouldn't happen but safety check)
+        if (!friend) {
+          console.log(`[FRIENDS API] Warning: null friend in request ${request._id}`);
+          return null;
+        }
 
-    console.log(`[FRIENDS API] Loaded ${friends.length} friends`);
+        // Check if friend is online using helper function
+        const online = isUserOnline(friend._id.toString());
+
+        return {
+          ...friend.toObject(),
+          isOnline: online,
+        };
+      })
+      .filter((friend) => friend !== null); // Remove any null entries
+
+    console.log(`[FRIENDS API] Loaded ${friends.length} friends for user ${req.user.codeName}`);
     res.json({ friends });
   } catch (error) {
     console.error("Error fetching friends:", error);

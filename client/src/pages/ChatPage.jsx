@@ -186,10 +186,11 @@ function ChatPage() {
     try {
       setLoadingFriends(true);
       const response = await axios.get("/api/users/friends");
-
-      setFriends(response.data.friends);
+      console.log("[LOAD FRIENDS] Response:", response.data);
+      setFriends(response.data.friends || []);
     } catch (error) {
       console.error("Error loading friends:", error);
+      setFriends([]);
     } finally {
       setLoadingFriends(false);
     }

@@ -71,6 +71,20 @@ router.get("/search", auth, async (req, res) => {
 // Get user's friends
 router.get("/friends", auth, async (req, res) => {
   try {
+    console.log(`[FRIENDS API] Getting friends for user: ${req.user._id} (${req.user.codeName}), isAdmin: ${req.user.isAdmin}`);
+    
+    // Get ALL friend requests for this user (for debugging)
+    const allRequests = await FriendRequest.find({
+      $or: [
+        { sender: req.user._id },
+        { receiver: req.user._id },
+      ],
+    });
+    console.log(`[FRIENDS API] Total friend requests involving this user: ${allRequests.length}`);
+    allRequests.forEach(r => {
+      console.log(`[FRIENDS API] Request: sender=${r.sender}, receiver=${r.receiver}, status=${r.status}`);
+    });
+
     const acceptedRequests = await FriendRequest.find({
       $or: [
         { sender: req.user._id, status: "accepted" },

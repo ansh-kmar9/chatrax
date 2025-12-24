@@ -6,6 +6,35 @@ import { isUserOnline } from "../socket/socketHandlers.js";
 
 const router = express.Router();
 
+// Debug endpoint to check all friend requests in DB
+router.get("/debug/friend-requests", auth, async (req, res) => {
+  try {
+    const allRequests = await FriendRequest.find({}).populate("sender receiver", "codeName fullName");
+    const myId = req.user._id.toString();
+    
+    const myRequests = allRequests.filter(r => 
+      r.sender?._id?.toString() === myId || r.receiver?._id?.toString() === myId
+    );
+    
+    res.json({
+      userId: myId,
+      codeName: req.user.codeName,
+      isAdmin: req.user.isAdmin,
+      totalRequestsInDB: allRequests.length,
+      myRequestsCount: myRequests.length,
+      myRequests: myRequests.map(r => ({
+        id: r._id,
+        sender: r.sender?.codeName || r.sender,
+        receiver: r.receiver?.codeName || r.receiver,
+        status: r.status
+      }))
+    });
+  } catch (error) {
+    console.error("Debug error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 // Get current user
 router.get("/me", auth, async (req, res) => {
   try {

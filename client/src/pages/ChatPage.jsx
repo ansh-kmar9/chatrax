@@ -405,7 +405,10 @@ function ChatPage() {
           {activeTab === "requests" && (
             <FriendRequests
               requests={friendRequests}
-              onRequestHandled={loadFriendRequests}
+              onRequestHandled={() => {
+                loadFriendRequests();
+                loadFriends();
+              }}
               loading={loadingRequests}
             />
           )}
